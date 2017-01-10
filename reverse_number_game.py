@@ -14,15 +14,17 @@ def game():
 
     while True:
         if computer_guess == user_num:
-            print("The computer has guessed your secret number of {} in {} tries.".format(user_num, len(guesses) + 1))
+            guesses.append(computer_guess)
+            print("The computer has guessed your secret number of {} in {} tries.".format(user_num, len(guesses)))
             break
         elif computer_guess < user_num:
+            guesses.append(computer_guess)
             print("The number is higher than {}".format(computer_guess))
-            computer_guess = random.randint(computer_guess, 10)
+            computer_guess = random.randint(computer_guess + 1, 10)
         else:
+            guesses.append(computer_guess)
             print("The number is lower than {}".format(computer_guess))
-            computer_guess = random.randint(1, computer_guess)
-        guesses.append(computer_guess)
+            computer_guess = random.randint(1, computer_guess - 1)
     play_again = input("Do you want to play again? Y/n ")
     if play_again.lower() != 'n':
         game()
