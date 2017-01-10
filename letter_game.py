@@ -1,4 +1,6 @@
+import os
 import random
+import sys
 
 # make a list of words
 words = [
@@ -52,23 +54,53 @@ def get_guess(bad_guesses, good_guesses):
         else:
             return guess
 
-while True:
-    start = input("Press enter/return to start, or enter Q to quit")
-    if start.lower() == 'q':
-        break
-
+def play(done):
+    clear()
     secret_word = random.choice(words)
     bad_guesses = []
     good_guesses = []
 
-    while len(bad_guesses) < 7 and len(good_guesses) != len(list(secret_word)):
+    while True:
+        draw(bad_guesses, good_guesses, secret_word)
+        guess = get_guess(bad_guesses, good_guesses)
 
         if guess in secret_word:
             good_guesses.append(guess)
-            if set(good_guesses) == set(secret_word):
-                print("You win! The word was {}".format(secret_word))
-                break
+            found = True
+            for letter in secret_word:
+                if letter not in good_guesses:
+                    found = False
+            if found:
+                print("You win!")
+                print("The secret word was {}".format(secret_word))
+                done = True
         else:
             bad_guesses.append(guess)
+            if len(bad_guesses) == 7:
+                draw(bad_guesses, good_guesses, secret_word)
+                print("You lost!")
+                print("The secret word was {}".format(secret_word))
+                done = True
+        if done:
+            play_again = input("Play again? Y/n: ").lower()
+            if play_again != 'n':
+                return play(done = False)
+            else:
+                sys.exit()
+
+def welcome():
+    start = input("Press enter/return to start or Q to quit ").lower()
+    if start == 'q':
+        print("Bye!")
+        sys.exit()
     else:
-        print("You didn't guess it! My secret_word was {}".format(secret_word))
+        return True
+
+print("Welcome to Letter Guess!")
+
+done = False
+
+while True:
+    clear()
+    welcome()
+    play(done)
