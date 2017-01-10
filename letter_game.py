@@ -21,6 +21,24 @@ def clear():
     else:
         os.system('clear')
 
+def draw(bad_guesses, good_guesses, secret_word):
+    clear()
+
+    print('Strikes: {}/7'.format(len(bad_guesses)))
+    print('')
+
+    for letter in bad_guesses:
+        print(letter, end=' ')
+    print('\n\n')
+
+    for letter in secret_word:
+        if letter in good_guesses:
+            print(letter, end='')
+        else:
+            print('_ ', end='')
+
+    print('')
+
 while True:
     start = input("Press enter/return to start, or enter Q to quit")
     if start.lower() == 'q':
@@ -32,17 +50,7 @@ while True:
     good_guesses = []
 
     while len(bad_guesses) < 7 and len(good_guesses) != len(list(secret_word)):
-        # draw spaces
-        # draw guess letters, spaces, and strikes
-        for letter in secret_word:
-            if letter in good_guesses:
-                print(letter, end='')
-            else:
-                print('_ ', end='')
 
-        print('')
-        print('Strikes: {}/7'.format(len(bad_guesses)))
-        print('')
 
         # take guess
         guess = input("Guess a letter: ").lower()
