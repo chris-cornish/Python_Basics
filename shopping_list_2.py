@@ -8,6 +8,7 @@ def show_help():
 Enter 'DONE' to stop adding items.
 Enter 'HELP' for this help.
 Enter 'SHOW' to see your current list.
+Enter 'SAVE' to save your current list.
 """)
 
 def show_list():
@@ -21,6 +22,17 @@ def add_to_list(new_item):
     # add new items to our list
     shopping_list.append(new_item)
     print("Added {}. List now has {} items".format(new_item, len(shopping_list)))
+
+def save_to_list():
+    # save the list
+    file = input("Enter file name: ") + str(".txt")
+
+    try:
+        with open(file, 'w') as file:
+            for items in shopping_list:
+                file.write(str(items) + "\n")
+    except:
+        print("An error has occured.")
 
 show_help()
 
@@ -36,6 +48,10 @@ while True:
         continue
     elif new_item == 'SHOW':
         show_list()
+        continue
+    elif new_item == 'SAVE':
+        save_to_list()
+        print("List has been saved!")
         continue
     add_to_list(new_item)
 
